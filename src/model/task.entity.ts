@@ -10,7 +10,7 @@ class Task extends BaseEntity {
     @Column()
     body: string;
 
-    @Column()
+    @Column({default: false})
     isDone: boolean;
 
     @ManyToOne(() => Project, (project) => project.tasks)

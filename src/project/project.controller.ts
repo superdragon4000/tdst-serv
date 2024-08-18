@@ -9,7 +9,7 @@ export class ProjectController {
 
     @Post('create')
     @HttpCode(HttpStatus.CREATED)
-    createUser(@Body() createProjectDto: CreateProjectDto): Promise<Project | HttpStatus> {
+    createProject(@Body() createProjectDto: CreateProjectDto): Promise<Project | HttpStatus> {
       return this.projectService.create(createProjectDto);
     }
 

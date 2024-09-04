@@ -5,6 +5,7 @@ import { Equal, Repository } from 'typeorm';
 import CreateTaskDto from './dto/create.task.dto';
 import { ProjectService } from 'src/project/project.service';
 import ChangeIsDoneDto from './dto/change.isDone.dto';
+import DeleteTaskDto from './dto/delete.task.dto';
 
 @Injectable()
 export class TaskService {
@@ -55,10 +56,23 @@ export class TaskService {
         'Task with provided id has not been found',
         HttpStatus.NOT_FOUND,
       );
-    
+
     return await this.taskRepository.save({
       ...task,
-      isDone: changeIsDoneDto.isDone
-    })
+      isDone: changeIsDoneDto.isDone,
+    });
+  }
+
+  async deleteTask(deleteTaskDto: DeleteTaskDto) {
+    const task = await this.taskRepository.findOneBy({
+      id: Equal(deleteTaskDto.taskId),
+    });
+    if (!task)
+      throw new HttpException(
+        'Task with provided id has not been found',
+        HttpStatus.NOT_FOUND,
+      );
+
+    return await this.taskRepository.delete(task.id);
   }
 }
